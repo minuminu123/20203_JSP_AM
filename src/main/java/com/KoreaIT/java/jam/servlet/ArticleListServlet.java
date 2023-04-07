@@ -41,11 +41,20 @@ public class ArticleListServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 
+//			최신글 10개 select * from article order byi id desc limit 0, 10
+//			최신글 10개 select * from article order byi id desc limit 10, 10
+//			최신글 10개 select * from article order byi id desc limit 20, 10
+//			itemsInAPage = 10
+//			request.getParameter("page")
+//			page == null???
+			int page = 1;
+			int itemsInAPage = 10;
+			int limitForm = (page - 1) * itemsInAPage;
 			response.getWriter().append("Success!!!");
 
 			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
-			sql.append("ORDER BY id DESC;");
+			sql.append("ORDER BY id DESC limit %d, %d;", limitForm, itemsInAPage);
 
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 

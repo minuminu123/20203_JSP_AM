@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -38,6 +39,7 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 		<%
 		}
 		%>
+
 
 	</table>
 </body>
