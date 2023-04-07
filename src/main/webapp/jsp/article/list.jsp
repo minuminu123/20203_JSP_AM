@@ -13,26 +13,32 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 </head>
 <body>
 	<div>
-		<a href="https://www.naver.com" target="_blank">네이버</a>
-		<a href="http://localhost:8081/2023_04_JSP_AM/article/list"
-			target="_blank">버튼1</a>
-		<a href="/2023_04_JSP_AM/article/list" target="_blank">버튼2</a>
-		<a href="detail" target="_blank">디테일</a>
+		<a href="../home/main">메인페이지로 이동</a>
 	</div>
 
 	<h1>게시물 리스트</h1>
 
-	<ul>
+	<table style="border-collapse: collapse; border-color: green" border="2px">
+
+		<tr>
+			<th>번호</th>
+			<th>작성날짜</th>
+			<th>제목</th>
+			<th>삭제</th>
+		</tr>
 		<%
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
-		<li><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("id")%>번,
-				<%=articleRow.get("regDate")%>,
-				<%=articleRow.get("title")%>,
-				<%=articleRow.get("body")%></a></li>
+		<tr style="text-align: center;">
+			<td><%=articleRow.get("id")%></td>
+			<td><%=articleRow.get("regDate")%></td>
+			<td><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
+			<td><a href="doDelete?id=<%=articleRow.get("id")%>">del</a></td>
+		</tr>
 		<%
 		}
 		%>
-	</ul>
+
+	</table>
 </body>
 </html>
