@@ -41,25 +41,33 @@ public class ArticleListServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 
-//			최신글 10개 select * from article order byi id desc limit 0, 10
-//			최신글 10개 select * from article order byi id desc limit 10, 10
-//			최신글 10개 select * from article order byi id desc limit 20, 10
-//			itemsInAPage = 10
-//			request.getParameter("page")
-//			page == null???
 			int page = 1;
-			int itemsInAPage = 10;
-			int limitForm = (page - 1) * itemsInAPage;
-			response.getWriter().append("Success!!!");
 
-			SecSql sql = SecSql.from("SELECT *");
+			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+
+			int itemsInAPage = 10;
+
+			int limitFrom = (page - 1) * itemsInAPage;
+
+			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
 			sql.append("FROM article");
-			sql.append("ORDER BY id DESC limit %d, %d;", limitForm, itemsInAPage);
+
+			int totalCnt = DBUtil.selectRowIntValue(conn, sql);
+			int totalPage = (int) Math.ceil((double) totalCnt / itemsInAPage);
+
+			sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("ORDER BY id DESC");
+			sql.append("LIMIT ?, ?;", limitFrom, itemsInAPage);
 
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
 			response.getWriter().append(articleRows.toString());
 
+			request.setAttribute("page", page);
+			request.setAttribute("totalPage", totalPage);
 			request.setAttribute("articleRows", articleRows);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 

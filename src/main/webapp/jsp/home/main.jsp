@@ -10,7 +10,7 @@
 
 	<h1>MAIN</h1>
 	<ul>
-		<li><a href="../article/list">게시물 리스트</a></li>
+		<li><a href="../article/list?page=1">게시물 리스트</a></li>
 	</ul>
 
 
