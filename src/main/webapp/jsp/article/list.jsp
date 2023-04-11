@@ -6,6 +6,7 @@
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
+int totalCnt = (int) request.getAttribute("totalCnt");
 %>
 <!DOCTYPE html>
 <html>
@@ -19,11 +20,14 @@ int totalPage = (int) request.getAttribute("totalPage");
 	</div>
 	<div>
 		<a href="write">글쓰기</a>
+		<br>
+		<a href="../member/join">회원가입</a>
 	</div>
 
 	<h1>게시물 리스트</h1>
 
-	<table style="border-collapse: collapse; border-color: green" border="2px">
+	<table style="border-collapse: collapse; border-color: green"
+		border="2px">
 
 		<tr>
 			<th>번호</th>
@@ -52,9 +56,11 @@ int totalPage = (int) request.getAttribute("totalPage");
 .page {
 	background-color: gold;
 }
+
 .page>a {
 	color: black;
 }
+
 .page>a.red {
 	color: red;
 }
@@ -62,13 +68,61 @@ int totalPage = (int) request.getAttribute("totalPage");
 
 	<div class="page">
 		<%
-		for (int i = 1; i <= totalPage; i++) {
+		if (cPage > 1) {
 		%>
-		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		<a href="list?page=1">◀◀</a>
+		<%
+		}
+		// 페이징  처리
+		if (totalCnt > 0) {
+			// 총 페이지의 수
+			int pageCount = totalCnt / 10 + (totalCnt % 10 == 0 ? 0 : 1);
+			// 한 페이지에 보여줄 페이지 블럭(링크) 수
+			int pageBlock = 10;
+			// 한 페이지에 보여줄 시작 및 끝 번호(예 : 1, 2, 3 ~ 10 / 11, 12, 13 ~ 20)
+			int startPage = ((cPage - 1) / pageBlock) * pageBlock + 1;
+			int endPage = startPage + pageBlock - 1;
+
+			// 마지막 페이지가 총 페이지 수 보다 크면 endPage를 pageCount로 할당
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+
+			if (startPage > pageBlock) { // 페이지 블록수보다 startPage가 클경우 이전 링크 생성
+		%>
+		<a href="list?page=<%=startPage - 10%>">[이전]</a>
+		<%
+		}
+
+		for (int i = startPage; i <= endPage; i++) { // 페이지 블록 번호
+		if (i == cPage) { // 현재 페이지에는 링크를 설정하지 않음
+		%>
+		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>">[<%=i%>]</a>
+		<%
+		} else { // 현재 페이지가 아닌 경우 링크 설정
+		%>
+		<a href="list?page=<%=i%>">[<%=i%>]
+		</a>
+		<%
+		}
+		} // for end
+
+		if (endPage < pageCount) { // 현재 블록의 마지막 페이지보다 페이지 전체 블록수가 클경우 다음 링크 생성
+		%>
+		<a  href="list?page=<%=startPage + 10%>">[다음]</a>
+		<%
+		}
+		}
+		%>
+		<%
+		if (cPage < totalPage) {
+		%>
+		<a href="list?page=<%=totalPage%>">▶▶</a>
 		<%
 		}
 		%>
 	</div>
+
 
 </body>
 </html>
