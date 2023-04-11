@@ -22,6 +22,8 @@ int totalCnt = (int) request.getAttribute("totalCnt");
 		<a href="write">글쓰기</a>
 		<br>
 		<a href="../member/join">회원가입</a>
+		<br>
+		<a href="../member/login">로그인</a>
 	</div>
 
 	<h1>게시물 리스트</h1>

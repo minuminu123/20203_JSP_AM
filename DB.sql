@@ -11,6 +11,15 @@ CREATE TABLE article(
     `body` TEXT NOT NULL
 );
 
+# member 테이블 생성
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    loginId CHAR(100) NOT NULL,
+    loginPw CHAR(200) NOT NULL,
+    `name` CHAR(100) NOT NULL
+);
+
 # article 테스트데이터 생성
 INSERT INTO article
 SET regDate = NOW(),
@@ -31,3 +40,40 @@ INSERT INTO article
 SET regDate = NOW(),
 title = '제목 4',
 `body` = '내용 4';
+
+INSERT INTO article
+SET regDate = NOW(),
+title = '제목 5',
+`body` = '내용 5';
+
+# member 테스트데이터 생성
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test1',
+loginPw = 'test1',
+`name` = 'test1';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test2',
+loginPw = 'test2',
+`name` = 'test2';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test3',
+loginPw = 'test3',
+`name` = 'test3';
+
+
+#################################
+
+INSERT INTO article
+SET regDate = NOW(),
+title = CONCAT('제목__', RAND()),
+`body` = CONCAT('내용__', RAND());
+
+
+SELECT * FROM article;
+
+SELECT * FROM `member`;
