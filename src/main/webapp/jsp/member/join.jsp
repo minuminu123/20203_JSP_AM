@@ -15,7 +15,14 @@
 	<h1>회원가입</h1>
 	
 	<script>
+	var JoinForm__submitDone = false;
 	function JoinForm__submit(form) {
+		//중복 submit을 방지하기 위한 조건문
+		if(JoinForm__submitDone){
+			alert('처리중입니다.');
+			return;
+		}
+		
 		var loginId = form.loginId.value.trim();
 		var loginPw = form.loginPw.value.trim();
 		var loginPwConfirm = form.loginPwConfirm.value.trim();
@@ -50,6 +57,8 @@
 			form.name.focus();
 			return;
 		}
+		JoinForm__submitDone = true;
+		form.submit();
 	}
 	</script>
 

@@ -43,7 +43,6 @@ public class MemberDoJoinServlet extends HttpServlet {
 
 			String loginId =(String) request.getParameter("loginId");
 			String loginPw = request.getParameter("loginPw");
-			String loginPwConfirm = request.getParameter("loginPwConfirm");
 			String name = request.getParameter("name");
 
 //			if(!loginPw.equals(loginPwConfirm)) {
@@ -69,7 +68,7 @@ public class MemberDoJoinServlet extends HttpServlet {
 //			}
 			
 			response.getWriter().append(String
-					.format("<script>alert('%d번 회원가입이 완료되었습니다.'); location.replace('../article/list');</script>", id));
+					.format("<script>alert('%s님 회원가입이 완료되었습니다.'); location.replace('../article/list');</script>", name));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
