@@ -51,22 +51,38 @@ INSERT INTO `member`
 SET regDate = NOW(),
 loginId = 'test1',
 loginPw = 'test1',
-`name` = 'test1';
+`name` = '회원1';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 loginId = 'test2',
 loginPw = 'test2',
-`name` = 'test2';
+`name` = '회원2';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 loginId = 'test3',
 loginPw = 'test3',
-`name` = 'test3';
+`name` = '회원3';
+
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER regDate;
+
+UPDATE article 
+SET memberId = 2
+WHERE id IN (1,2);
+
+UPDATE article 
+SET memberId = 1
+WHERE id IN (3,4);
+
+UPDATE article 
+SET memberId = 3
+WHERE id = 5;
 
 
 #################################
+
+DESC article;
 
 INSERT INTO article
 SET regDate = NOW(),

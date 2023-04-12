@@ -11,6 +11,8 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 <title>게시물 상세페이지</title>
 </head>
 <body>
+
+	<%@ include file="../part/topbar.jspf"%>
 	<h1>게시물 상세페이지</h1>
 
 	<div>
@@ -25,12 +27,16 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 		내용 :
 		<%=articleRow.get("body")%></div>
-		<div><a href="modify?id=<%=articleRow.get("id") %>">수정</a>
-		<br>
-		<a href="doDelete?id=<%=articleRow.get("id") %>">삭제</a></div>
+	<div>
+		작성자 :
+		<%=articleRow.get("writer")%></div>
+	<div>
+		<a href="modify?id=<%=articleRow.get("id")%>">수정</a>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a>
+	</div>
 	<div>
 		<a style="color: green" href="list">리스트로 돌아가기</a>
-		<a href="modify?id=<%=articleRow.get("id") %>">게시글 수정</a>	
 	</div>
 </body>
 </html>
