@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.KoreaIT.java.jam.service.ArticleService;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
@@ -17,11 +18,14 @@ public class ArticleController {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private Connection conn;
+	private ArticleService articleService;
 
 	public ArticleController(HttpServletRequest request, HttpServletResponse response, Connection conn) {
 		this.conn = conn;
 		this.request = request;
 		this.response = response;
+
+		this.articleService = new ArticleService(conn);
 	}
 
 	public void showList() throws ServletException, IOException {
@@ -31,24 +35,11 @@ public class ArticleController {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 
-		int itemsInAPage = 10;
+		int itemsInAPage = articleService.getItemsInAPage();
 
-		int limitFrom = (page - 1) * itemsInAPage;
+		int totalPage = articleService.getTotalPage();
 
-		SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
-		sql.append("FROM article");
-
-		int totalCnt = DBUtil.selectRowIntValue(conn, sql);
-		int totalPage = (int) Math.ceil((double) totalCnt / itemsInAPage);
-
-		sql = SecSql.from("SELECT A.*, M.name AS writer");
-		sql.append("FROM article AS A");
-		sql.append("INNER JOIN `member` AS M");
-		sql.append("ON A.memberId = M.id");
-		sql.append("ORDER BY A.id DESC");
-		sql.append("LIMIT ?, ?;", limitFrom, itemsInAPage);
-
-		List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+		List<Map<String, Object>> articleRows = articleService.getForPrintArticleRows(page);
 
 		request.setAttribute("page", page);
 		request.setAttribute("totalPage", totalPage);
